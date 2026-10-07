@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Ofertas - Mercado Livre & Afiliados</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bg-meli-yellow { background-color: #FFE600; }
+        .text-meli-blue { color: #3483FA; }
+        .bg-meli-blue { background-color: #3483FA; }
+        .bg-meli-blue-hover:hover { background-color: #2968c8; }
+        .bg-whatsapp-green { background-color: #25D366; }
+        .bg-whatsapp-green-hover:hover { background-color: #1EBE5D; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between font-sans">
+
+    <!-- Topo / Header Oficial -->
+    <header class="bg-meli-yellow shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Logo e Título -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white font-black px-3 py-1.5 rounded-lg text-xl tracking-wider shadow">
+                    ML <span class="text-meli-yellow">★</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-900 leading-tight">Vitrine de Ofertas & Achadinhos</h1>
+                    <p class="text-xs text-gray-700">Seleção Oficial • Compra 100% Segura no Mercado Livre</p>
+                </div>
+            </div>
+
+            <!-- Barra de Busca -->
+            <div class="w-full md:w-96 relative">
+                <input type="text" id="searchInput" placeholder="Buscar produtos, marcas..." 
+                    class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm shadow-inner bg-white">
+                <i class="fas fa-search absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+            </div>
+
+            <!-- Atalho de Contato / WhatsApp -->
+            <div class="flex items-center space-x-2">
+                <a href="https://wa.me/5511943477494?text=Olá!%20Vim%20pelo%20catálogo%20e%20gostaria%20de%20ajuda." target="_blank"
+                   class="bg-whatsapp-green text-white px-4 py-2 rounded-full text-xs font-bold flex items-center space-x-2 shadow hover:bg-whatsapp-green-hover transition">
+                    <i class="fab fa-whatsapp text-base"></i>
+                    <span>Dúvidas? Chame no Zap</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filtros por Categoria Dinâmicos -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex space-x-3 overflow-x-auto scrollbar-none" id="categoryFilters">
+            <!-- Injetado via JS -->
+        </div>
+    </nav>
+
+    <!-- Corpo Principal / Vitrine -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        <!-- Indicador de Status / Vazio -->
+        <div id="noProducts" class="hidden text-center py-16">
+            <i class="fas fa-box-open text-5xl text-gray-300 mb-3"></i>
+            <p class="text-gray-500 font-medium">Nenhum produto encontrado nesta categoria ou busca.</p>
+        </div>
+
+        <!-- Grade de Produtos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="productGrid">
+            <!-- Injetado dinamicamente -->
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-900 text-gray-400 py-8 mt-12 border-t border-gray-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="text-gray-300 font-medium">As compras são realizadas com total segurança diretamente no ambiente oficial do Mercado Livre.</p>
+            <p>Este catálogo participa de programas de afiliados. Podemos receber comissões por compras realizadas através dos links indicados.</p>
+            <p class="text-gray-500 pt-2">© 2026 Catálogo de Afiliados • Atendimento WhatsApp: (11) 94347-7494</p>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante do WhatsApp -->
+    <a href="https://wa.me/5511943477494?text=Olá!%20Vim%20pelo%20catálogo%20e%20quero%20atendimento." target="_blank"
+       class="fixed bottom-6 right-6 bg-whatsapp-green text-white p-4 rounded-full shadow-2xl hover:scale-110 transition z-50 flex items-center justify-center text-2xl"
+       title="Fale conosco no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Script de Conexão em Tempo Real -->
+    <script>
+        const DEFAULT_CATEGORIES = ["Eletrônicos", "Casa & Cozinha", "Moda & Acessórios", "Áudio & Estúdio"];
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 1,
+                name: "Fone de Ouvido Bluetooth TWS Pro à Prova d'Água",
+                category: "Eletrônicos",
+                full: true,
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80",
+                link: "https://mercadolivre.com"
+            },
+            {
+                id: 2,
+                name: "Kit Studio Monitores Profissionais + Acústica",
+                category: "Áudio & Estúdio",
+                full: true,
+                image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=600&q=80",
+                link: "https://mercadolivre.com"
+            },
+            {
+                id: 3,
+                name: "Smartwatch Relógio Inteligente Esportivo com GPS",
+                category: "Eletrônicos",
+                full: false,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+                link: "https://mercadolivre.com"
+            },
+            {
+                id: 4,
+                name: "Garrafa Térmica Inox Premium 1 Litro",
+                category: "Casa & Cozinha",
+                full: true,
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80",
+                link: "https://mercadolivre.com"
+            }
+        ];
+
+        function getProducts() {
+            const stored = localStorage.getItem('ml_catalog_products');
+            if (!stored) {
+                localStorage.setItem('ml_catalog_products', JSON.stringify(DEFAULT_PRODUCTS));
+                return DEFAULT_PRODUCTS;
+            }
+            try { return JSON.parse(stored); } catch (e) { return DEFAULT_PRODUCTS; }
+        }
+
+        function getCategories() {
+            const stored = localStorage.getItem('ml_catalog_categories');
+            if (!stored) {
+                localStorage.setItem('ml_catalog_categories', JSON.stringify(DEFAULT_CATEGORIES));
+                return DEFAULT_CATEGORIES;
+            }
+            try { return JSON.parse(stored); } catch (e) { return DEFAULT_CATEGORIES; }
+        }
+
+        let currentCategory = 'todos';
+        let searchQuery = '';
+
+        function renderCategoryFilters() {
+            const categories = getCategories();
+            const container = document.getElementById('categoryFilters');
+            container.innerHTML = '';
+
+            // Botão "Todos"
+            const allBtn = document.createElement('button');
+            allBtn.onclick = () => filterCategory('todos');
+            allBtn.className = `cat-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm transition ${currentCategory === 'todos' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`;
+            allBtn.innerText = 'Todos';
+            container.appendChild(allBtn);
+
+            // Demais categorias vindas do Storage
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.onclick = () => filterCategory(cat);
+                const isActive = currentCategory === cat;
+                btn.className = `cat-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm transition ${isActive ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`;
+                btn.innerText = cat;
+                container.appendChild(btn);
+            });
+        }
+
+        function renderProducts() {
+            const products = getProducts();
+            const grid = document.getElementById('productGrid');
+            const noProducts = document.getElementById('noProducts');
+
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'todos' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                noProducts.classList.remove('hidden');
+                return;
+            } else {
+                noProducts.classList.add('hidden');
+            }
+
+            filtered.forEach(p => {
+                const whatsappMsg = encodeURIComponent(`Olá! Gostaria de mais informações sobre o produto: *${p.name}*. Pode me ajudar?`);
+                const whatsappUrl = `https://wa.me/5511943477494?text=${whatsappMsg}`;
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition flex flex-col justify-between border border-gray-100";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 bg-gray-50 overflow-hidden group">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            ${p.full ? '<span class="absolute top-2 left-2 bg-[#00A650] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">FULL • Mercado Livre</span>' : ''}
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[11px] font-semibold text-blue-600 uppercase tracking-wide">${p.category}</span>
+                            <h3 class="text-sm font-medium text-gray-800 mt-1 line-clamp-2 leading-snug">${p.name}</h3>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0 grid grid-cols-2 gap-2 mt-4">
+                        <a href="${p.link}" target="_blank" class="bg-meli-blue bg-meli-blue-hover text-white text-xs font-bold py-2 px-3 rounded-lg text-center shadow transition flex items-center justify-center space-x-1">
+                            <span>Ver no ML</span>
+                            <i class="fas fa-external-link-alt text-[10px]"></i>
+                        </a>
+                        <a href="${whatsappUrl}" target="_blank" class="bg-whatsapp-green bg-whatsapp-green-hover text-white text-xs font-bold py-2 px-3 rounded-lg text-center shadow transition flex items-center justify-center space-x-1">
+                            <i class="fab fa-whatsapp text-sm"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            renderCategoryFilters();
+            renderProducts();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+
+        // Sincronização em tempo real entre o Painel Admin e o Catálogo
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'ml_catalog_products' || e.key === 'ml_catalog_categories') {
+                renderCategoryFilters();
+                renderProducts();
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryFilters();
+            renderProducts();
+        });
+    </script>
+</body>
+</html>
